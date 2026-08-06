@@ -3,23 +3,25 @@ import sys
 
 
 class Podcasts:
-    """
-    initalizes the keyword and calls on the methods
-    :param keyword: the person being searched for in podcasts
-    :type: string
-    """
+
 
     def __init__(self, keywords):
+        """
+        initalizes the keyword and calls on the methods
+        :param keyword: the person being searched for in podcasts
+        :type: string
+        """
         self.keyword = keywords
 
-    """
-    searches for the episodes given the terms
-    :param term: the term being searched for in the podcasts
-    :type: str
-    :return: dict
-    """
+
 
     def search_episodes(self):
+        """
+        searches for the episodes given the terms
+        :param term: the term being searched for in the podcasts
+        :type: str
+        :return: dict
+        """
         response = requests.get(
             "https://itunes.apple.com/search",
             params={
@@ -31,15 +33,16 @@ class Podcasts:
         )
         return response.json()
 
-    """
-    This will take all results and add them to a set to ensure their arent any duplicates
-    then it will add them to the list of results
-    :param data: the data that is found from search_episodes
-    :type: dict
-    :return: list
-    """
+
 
     def inspect_first_result(self, data):
+        """
+        This will take all results and add them to a set to ensure their arent any duplicates
+        then it will add them to the list of results
+        :param data: the data that is found from search_episodes
+        :type: dict
+        :return: list
+        """
         if data.get("resultCount", 0) == 0:
             sys.exit("No results.")
             return
@@ -51,7 +54,7 @@ class Podcasts:
             key = (title, publisher)
             if key in seen:
                 continue
-            if (all(k.lower() in title for k in self.keyword)) and (
+            if all(word in title for word in self.keyword.lower().split()) and (
                 "crime" in ep.get("collectionName").lower()
                 or "crime" in ep.get("trackName").lower()
             ):
@@ -59,11 +62,14 @@ class Podcasts:
                 results.append(ep)
         return results
 
-    """
-    will print out all given results
-    """
+
 
     def print_results(self, results):
+        """
+        will print out all given results
+        :param results: the results given from the inspect first result function
+        :type: list
+        """
         count = 0
         if len(results) == 0:
             sys.exit("No results for this person!")
