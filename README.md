@@ -11,6 +11,8 @@ Most Wanted Podcasts is a Python application that pulls the FBI's Ten Most Wante
 
 
 # How to Run
-1. Clone repository into an IDE
-2. CD into src -> main
-3. In terminal run python app.py
+1. Clone the repository into an IDE
+2. Install dependencies: pip install flask requests
+3. cd into src/main
+4. Run: python app.py (startup may take a moment while FBI data loads)
+5. Open http://127.0.0.1:5000 in your browser
